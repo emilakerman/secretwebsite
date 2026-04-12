@@ -1,12 +1,10 @@
 <script setup>
-// App.vue - Main application component
-// This will be implemented in subsequent tickets
+import QuizContainer from './components/QuizContainer.vue'
 </script>
 
 <template>
   <div id="app">
-    <h1>Quiz App</h1>
-    <p>Welcome to the quiz app. Questions will be loaded here.</p>
+    <QuizContainer />
   </div>
 </template>
 
@@ -15,6 +13,7 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  min-height: 100vh;
+  padding: 20px 0;
 }
 </style>
