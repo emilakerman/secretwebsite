@@ -14,6 +14,9 @@ const isLastQuestion = computed(() => currentIndex.value === totalQuestions.valu
 const isFirstQuestion = computed(() => currentIndex.value === 0)
 const showResults = ref(false)
 
+const answeredCount = computed(() => Object.keys(answers.value).length)
+const progressPercentage = computed(() => Math.round((answeredCount.value / totalQuestions.value) * 100))
+
 const handleSelect = (index) => {
   selectedIndex.value = index
   isAnswered.value = true
@@ -67,8 +70,17 @@ const goToQuestion = (index) => {
       </div>
     </template>
     <template v-else>
+      <div class="quiz-progress-container">
+        <div class="progress-info">
+          <span class="question-counter">Question {{ currentIndex + 1 }} of {{ totalQuestions }}</span>
+          <span class="progress-text">{{ answeredCount }} / {{ totalQuestions }} answered ({{ progressPercentage }}%)</span>
+        </div>
+        <div class="progress-bar-wrapper" role="progressbar" :aria-valuenow="progressPercentage" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+        </div>
+      </div>
+
       <div class="quiz-header">
-        <span class="question-counter">Question {{ currentIndex + 1 }} of {{ totalQuestions }}</span>
         <div class="navigation-dots">
           <button
             v-for="(q, index) in quizQuestions"
@@ -114,6 +126,45 @@ const goToQuestion = (index) => {
   padding: 20px;
 }
 
+.quiz-progress-container {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.question-counter {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.progress-text {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.progress-bar-wrapper {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #42b983, #3aa872);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
 .quiz-header {
   display: flex;
   align-items: center;
@@ -122,12 +173,6 @@ const goToQuestion = (index) => {
   padding: 12px 16px;
   background: #f8f9fa;
   border-radius: 8px;
-}
-
-.question-counter {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #555;
 }
 
 .navigation-dots {
