@@ -199,8 +199,9 @@ const restartQuiz = () => {
 .quiz-progress-container {
   margin-bottom: 20px;
   padding: 16px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 8px;
+  transition: background 0.3s ease;
 }
 
 .progress-info {
@@ -213,24 +214,24 @@ const restartQuiz = () => {
 .question-counter {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .progress-text {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-muted);
 }
 
 .progress-bar-wrapper {
   height: 8px;
-  background: #e0e0e0;
+  background: var(--progress-bar-bg);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #42b983, #3aa872);
+  background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -241,8 +242,9 @@ const restartQuiz = () => {
   justify-content: space-between;
   margin-bottom: 24px;
   padding: 12px 16px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 8px;
+  transition: background 0.3s ease;
 }
 
 .navigation-dots {
@@ -256,7 +258,7 @@ const restartQuiz = () => {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 2px solid var(--dot-border);
   background: transparent;
   cursor: pointer;
   padding: 0;
@@ -264,23 +266,23 @@ const restartQuiz = () => {
 }
 
 .dot:hover {
-  border-color: #42b983;
+  border-color: var(--accent-color);
 }
 
 .dot.active {
-  background: #42b983;
-  border-color: #42b983;
+  background: var(--dot-active-bg);
+  border-color: var(--dot-active-bg);
   transform: scale(1.2);
 }
 
 .dot.answered {
-  background: #a5d6a7;
-  border-color: #a5d6a7;
+  background: var(--accent-light);
+  border-color: var(--accent-color);
 }
 
 .dot.answered.active {
-  background: #42b983;
-  border-color: #42b983;
+  background: var(--dot-active-bg);
+  border-color: var(--dot-active-bg);
 }
 
 .quiz-navigation {
@@ -292,18 +294,19 @@ const restartQuiz = () => {
 
 .nav-btn {
   padding: 12px 24px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg-card);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease;
+  color: var(--text-primary);
 }
 
 .nav-btn:hover:not(:disabled) {
-  border-color: #42b983;
-  color: #42b983;
+  border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 
 .nav-btn:disabled {
@@ -312,14 +315,14 @@ const restartQuiz = () => {
 }
 
 .nav-btn.primary {
-  background: #42b983;
-  border-color: #42b983;
+  background: var(--accent-color);
+  border-color: var(--accent-color);
   color: #fff;
 }
 
 .nav-btn.primary:hover:not(:disabled) {
-  background: #3aa872;
-  border-color: #3aa872;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
   color: #fff;
 }
 
@@ -327,19 +330,20 @@ const restartQuiz = () => {
   max-width: 600px;
   margin: 40px auto;
   padding: 40px;
-  background: #f8f9fa;
+  background: var(--bg-secondary);
   border-radius: 12px;
   text-align: center;
+  transition: background 0.3s ease;
 }
 
 .results-screen h2 {
-  color: #42b983;
+  color: var(--accent-color);
   margin-bottom: 16px;
 }
 
 .results-screen p {
   font-size: 1.1rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .score-summary {
@@ -359,18 +363,18 @@ const restartQuiz = () => {
 }
 
 .score-stat.correct {
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--correct-bg);
+  color: var(--correct-text);
 }
 
 .score-stat.incorrect {
-  background: #ffebee;
-  color: #c62828;
+  background: var(--incorrect-bg);
+  color: var(--incorrect-text);
 }
 
 .score-stat.percentage {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: var(--accent-light);
+  color: var(--accent-color);
 }
 
 .score-value {
@@ -388,7 +392,7 @@ const restartQuiz = () => {
 
 .restart-btn {
   padding: 14px 32px;
-  background: #42b983;
+  background: var(--accent-color);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -399,7 +403,7 @@ const restartQuiz = () => {
 }
 
 .restart-btn:hover {
-  background: #3aa872;
+  background: var(--accent-hover);
 }
 
 .missed-section {
@@ -408,7 +412,7 @@ const restartQuiz = () => {
 }
 
 .missed-section h3 {
-  color: #c62828;
+  color: var(--incorrect-text);
   margin-bottom: 16px;
   font-size: 1.1rem;
 }
@@ -421,15 +425,16 @@ const restartQuiz = () => {
 
 .missed-item {
   padding: 16px;
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: var(--missed-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .missed-question {
   font-weight: 500;
   margin-bottom: 8px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .missed-answers {
@@ -439,11 +444,11 @@ const restartQuiz = () => {
 }
 
 .your-answer {
-  color: #c62828;
+  color: var(--incorrect-text);
 }
 
 .correct-answer {
-  color: #2e7d32;
+  color: var(--correct-text);
   font-weight: 500;
 }
 </style>

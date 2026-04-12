@@ -77,7 +77,7 @@ const handleKeydown = (event, index) => {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 24px;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .options-list {
@@ -91,33 +91,36 @@ const handleKeydown = (event, index) => {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border-color);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg-card);
   cursor: pointer;
   font-size: 1rem;
   text-align: left;
   transition: all 0.15s ease;
+  color: var(--text-primary);
 }
 
 .answer-option:hover:not([aria-disabled="true"]) {
-  border-color: #42b983;
-  background: #f0fdf4;
+  border-color: var(--accent-color);
+  background: var(--accent-light);
 }
 
 .answer-option.selected {
-  border-color: #42b983;
-  background: #e8f5e9;
+  border-color: var(--accent-color);
+  background: var(--accent-light);
 }
 
 .answer-option.correct {
-  border-color: #4caf50;
-  background: #c8e6c9;
+  border-color: var(--correct-text);
+  background: var(--correct-bg);
+  color: var(--correct-text);
 }
 
 .answer-option.incorrect {
-  border-color: #f44336;
-  background: #ffcdd2;
+  border-color: var(--incorrect-text);
+  background: var(--incorrect-bg);
+  color: var(--incorrect-text);
 }
 
 .answer-option:disabled {
@@ -131,10 +134,11 @@ const handleKeydown = (event, index) => {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #f0f0f0;
+  background: var(--letter-bg);
   font-weight: 700;
   font-size: 0.875rem;
   flex-shrink: 0;
+  transition: background 0.3s ease;
 }
 
 .option-text {
