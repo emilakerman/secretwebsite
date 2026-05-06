@@ -51,6 +51,34 @@ const missedQuestions = computed(() => {
   return missed
 })
 
+const DOT_WINDOW_SIZE = 20
+const dotWindowStart = ref(0)
+
+const dotWindowQuestions = computed(() =>
+  quizQuestions.slice(dotWindowStart.value, dotWindowStart.value + DOT_WINDOW_SIZE)
+)
+
+const canScrollDotsPrev = computed(() => dotWindowStart.value > 0)
+const canScrollDotsNext = computed(() => dotWindowStart.value + DOT_WINDOW_SIZE < totalQuestions.value)
+
+const scrollDotsPrev = () => {
+  dotWindowStart.value = Math.max(dotWindowStart.value - DOT_WINDOW_SIZE, 0)
+}
+
+const scrollDotsNext = () => {
+  dotWindowStart.value = Math.min(
+    dotWindowStart.value + DOT_WINDOW_SIZE,
+    totalQuestions.value - DOT_WINDOW_SIZE
+  )
+}
+
+const ensureDotWindowVisible = (index) => {
+  if (index < dotWindowStart.value || index >= dotWindowStart.value + DOT_WINDOW_SIZE) {
+    const raw = Math.floor(index / DOT_WINDOW_SIZE) * DOT_WINDOW_SIZE
+    dotWindowStart.value = Math.min(raw, totalQuestions.value - DOT_WINDOW_SIZE)
+  }
+}
+
 const handleSelect = (index) => {
   selectedIndex.value = index
   isAnswered.value = true
@@ -63,6 +91,7 @@ const goToNext = () => {
   } else {
     currentIndex.value++
     loadCurrentAnswerState()
+    ensureDotWindowVisible(currentIndex.value)
   }
 }
 
@@ -76,6 +105,7 @@ const goToPrev = () => {
   if (!isFirstQuestion.value) {
     currentIndex.value--
     loadCurrentAnswerState()
+    ensureDotWindowVisible(currentIndex.value)
   }
 }
 
@@ -100,6 +130,7 @@ const restartQuiz = () => {
   isAnswered.value = false
   answers.value = {}
   showResults.value = false
+  dotWindowStart.value = 0
 }
 </script>
 
@@ -151,15 +182,30 @@ const restartQuiz = () => {
       </div>
 
       <div class="quiz-header">
-        <div class="navigation-dots">
+        <div class="navigation-dots-container">
           <button
-            v-for="(q, index) in quizQuestions"
-            :key="q.id"
-            :class="['dot', { active: index === currentIndex, answered: answers[index] !== undefined }]"
-            @click="goToQuestion(index)"
-            :aria-label="`Go to question ${index + 1}`"
-          />
+            class="dots-nav-btn"
+            :disabled="!canScrollDotsPrev"
+            @click="scrollDotsPrev"
+            aria-label="Previous questions"
+          >&#8249;</button>
+          <div class="navigation-dots">
+            <button
+              v-for="(q, i) in dotWindowQuestions"
+              :key="q.id"
+              :class="['dot', { active: (dotWindowStart + i) === currentIndex, answered: answers[dotWindowStart + i] !== undefined }]"
+              @click="goToQuestion(dotWindowStart + i)"
+              :aria-label="`Go to question ${dotWindowStart + i + 1}`"
+            />
+          </div>
+          <button
+            class="dots-nav-btn"
+            :disabled="!canScrollDotsNext"
+            @click="scrollDotsNext"
+            aria-label="Next questions"
+          >&#8250;</button>
         </div>
+        <span class="dots-range-label">{{ dotWindowStart + 1 }}–{{ Math.min(dotWindowStart + DOT_WINDOW_SIZE, totalQuestions) }} of {{ totalQuestions }}</span>
       </div>
 
       <QuestionCard
@@ -238,8 +284,9 @@ const restartQuiz = () => {
 
 .quiz-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   margin-bottom: 24px;
   padding: 12px 16px;
   background: var(--bg-secondary);
@@ -247,11 +294,52 @@ const restartQuiz = () => {
   transition: background 0.3s ease;
 }
 
+.navigation-dots-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
 .navigation-dots {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
-  max-width: 300px;
+  flex-wrap: nowrap;
+  flex: 1;
+  justify-content: center;
+}
+
+.dots-nav-btn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  padding: 0;
+  line-height: 1;
+}
+
+.dots-nav-btn:hover:not(:disabled) {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.dots-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.dots-range-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .dot {
