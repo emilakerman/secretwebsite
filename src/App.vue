@@ -1,12 +1,17 @@
 <script setup>
+import { ref } from 'vue'
 import QuizContainer from './components/QuizContainer.vue'
 import ThemeToggle from './components/ThemeToggle.vue'
+import LoginScreen from './components/LoginScreen.vue'
+
+const isAuthenticated = ref(false)
 </script>
 
 <template>
   <div id="app">
     <ThemeToggle />
-    <QuizContainer />
+    <LoginScreen v-if="!isAuthenticated" @login="isAuthenticated = true" />
+    <QuizContainer v-else />
   </div>
 </template>
 
