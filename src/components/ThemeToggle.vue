@@ -44,9 +44,6 @@ const applyTheme = () => {
 
 <style scoped>
 .theme-toggle {
-  position: fixed;
-  top: 16px;
-  right: 16px;
   width: 44px;
   height: 44px;
   border-radius: 50%;
